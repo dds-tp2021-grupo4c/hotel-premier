@@ -83,8 +83,8 @@ id_moneda integer references moneda(id));
 
 create table responsable_pago(
 id serial primary key,
-id_pasajero integer references pasajero(id),
-id_persona_juridica integer references persona_juridica(id));
+id_pasajero integer references pasajero(id) on delete set null,
+id_persona_juridica integer references persona_juridica(id) on delete set null);
 
 create type estado_habitacion as enum('OCUPADA','RESERVADA', 'LIBRE', 'FUERA_DE_SERVICIO');
 
@@ -107,14 +107,14 @@ id_responsable integer references pasajero(id) not null,
 id_habitacion integer references habitacion(id) not null);
 
 create table tiene_acompaniantes(
-id serial primary key,
 id_pasajero integer references pasajero(id),
-id_ocupacion integer references ocupacion(id) not null);
+id_ocupacion integer references ocupacion(id) not null,
+primary key (id_pasajero, id_ocupacion));
 
 create table posee(
-id serial primary key,
 id_habitacion integer references habitacion(id) not null,
-id_costo integer references costo(id) not null);
+id_costo integer references costo(id) not null,
+primary key (id_habitacion, id_costo));
 
 create table consumo(
 id serial primary key,

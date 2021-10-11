@@ -1,4 +1,7 @@
 .settings
+.dbeaver
+.metadata
+bin
 
 ### Java ###
 # Compiled class file

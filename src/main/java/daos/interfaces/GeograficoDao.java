@@ -1,5 +1,7 @@
 package daos.interfaces;
 
-public interface GeograficoDao {
+import dominio.Localidad;
 
+public interface GeograficoDao {
+	public Localidad getLocalidadById(int localidadID);
 }

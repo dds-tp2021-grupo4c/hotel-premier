@@ -1,24 +1,73 @@
 package dominio;
 
 import java.time.LocalDate;
+import javax.persistence.CascadeType;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
+@Entity
+@Table(name = "pasajero")
 public class Pasajero {
+	@Id
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int	id;
+
+	@Column
 	private String apellido;
+
+	@Column
 	private String nombre;
+
+	@Column(name = "nro_documento")
 	private String numDocumento;
+
+	@Column
 	private String telefono;
+
+	@Column
 	private String cuit;
+
+	@Column(name = "fecha_nacimiento")
 	private LocalDate fechaNac;
+
+	@Column
 	private String email;
+
+	@Column
 	private String nacionalidad;
+
+	@Column
 	private String calle;
+
+	@Column(name = "nro_calle")
 	private String numero;
+
+	@Column
 	private String departamento;
+
+	@Column
 	private int piso;
+
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_tipo_documento", referencedColumnName = "id")
 	private TipoDocumento tipoDocumento;
+
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_posicion_frente_iva", referencedColumnName = "id")
 	private PosicionFrenteIVA posicionFrenteIva;
+
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_profesion", referencedColumnName = "id")
 	private Profesion profesion;
+
+	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@JoinColumn(name = "id_localidad", referencedColumnName = "id")
 	private Localidad localidad;
 
 	public Pasajero() {

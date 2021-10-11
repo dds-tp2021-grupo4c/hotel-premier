@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+<hibernate-configuration>
+	<session-factory>
+		<!-- Connection settings -->
+   		<property name="connection.url">jdbc:postgresql://localhost:5432/hotel-premier</property> <!-- BD Mane -->
+   		<property name="connection.driver_class">org.postgresql.Driver</property> <!-- DB Driver -->
+   		<property name="connection.username">postgres</property> <!-- DB User -->
+   		<property name="connection.password">postgres</property> <!-- DB Password -->
+
+		<!-- JDBC connection pool (use the built-in) -->
+        <!-- <property name="connection.pool_size">1</property>  -->
+        <!-- Enable Hibernate's automatic session context management -->
+        <!-- <property name="current_session_context_class">thread</property> -->
+   		
+   		<property name="dialect">org.hibernate.dialect.PostgreSQLDialect</property> <!-- DB Dialect -->
+		
+		<property name="show_sql">true</property> <!-- Show SQL in console, una vez terminado sacar esto -->
+		
+		<mapping class="dominio.Localidad" />
+		<mapping class="dominio.Provincia" />
+		<mapping class="dominio.Pais" />
+		<mapping class="dominio.Pasajero" />
+		<mapping class="dominio.PosicionFrenteIVA" />
+		<mapping class="dominio.Profesion" />
+		<mapping class="dominio.TipoDocumento" />
+		
+	</session-factory>
+</hibernate-configuration>

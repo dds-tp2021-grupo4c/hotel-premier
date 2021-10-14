@@ -22,6 +22,8 @@ import java.awt.Font;
 
 import javax.swing.table.DefaultTableModel;
 import javax.swing.border.TitledBorder;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 @SuppressWarnings("serial")
 public class BusquedaPasajero extends JFrame {
@@ -60,6 +62,29 @@ public class BusquedaPasajero extends JFrame {
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
+		
+		tablaResultado = new JTable();
+		tablaResultado.setBorder(new TitledBorder(null, "Resultado B\u00FAsqueda", TitledBorder.LEADING, TitledBorder.TOP, null, null));
+		tablaResultado.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Apellido", "Nombre", "Tipo Documento", "Nro Documento"
+			}
+		) {
+			boolean[] columnEditables = new boolean[] {
+				false, true, true, true
+			};
+			public boolean isCellEditable(int row, int column) {
+				return columnEditables[column];
+			}
+		});
+		tablaResultado.getColumnModel().getColumn(0).setPreferredWidth(86);
+		tablaResultado.getColumnModel().getColumn(1).setPreferredWidth(86);
+		tablaResultado.getColumnModel().getColumn(2).setPreferredWidth(87);
+		tablaResultado.getColumnModel().getColumn(3).setPreferredWidth(86);
+		tablaResultado.setBounds(742, 171, -725, 204);
+		contentPane.add(tablaResultado);
 		
 		Panel BusquedaPasajero = new Panel();
 		BusquedaPasajero.setBounds(10, 10, 748, 130);
@@ -110,35 +135,16 @@ public class BusquedaPasajero extends JFrame {
 		txtNroDocumento.setColumns(10);
 		
 		JButton btnBuscar = new JButton("Buscar");
+		btnBuscar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+			}
+		});
 		btnBuscar.setBounds(548, 96, 89, 23);
 		BusquedaPasajero.add(btnBuscar);
 		
 		JButton btnLimpiar = new JButton("Limpiar");
 		btnLimpiar.setBounds(649, 96, 89, 23);
 		BusquedaPasajero.add(btnLimpiar);
-		
-		tablaResultado = new JTable();
-		tablaResultado.setBorder(new TitledBorder(null, "Resultado B\u00FAsqueda", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		tablaResultado.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Apellido", "Nombre", "Tipo Documento", "Nro Documento"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, true, true, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		tablaResultado.getColumnModel().getColumn(0).setPreferredWidth(86);
-		tablaResultado.getColumnModel().getColumn(1).setPreferredWidth(86);
-		tablaResultado.getColumnModel().getColumn(2).setPreferredWidth(87);
-		tablaResultado.getColumnModel().getColumn(3).setPreferredWidth(86);
-		tablaResultado.setBounds(742, 171, -725, 204);
-		contentPane.add(tablaResultado);
 		JButton btnSiguiente = new JButton("Siguiente");
 		btnSiguiente.setBounds(570, 412, 89, 23);
 		contentPane.add(btnSiguiente);

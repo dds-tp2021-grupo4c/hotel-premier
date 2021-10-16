@@ -24,6 +24,7 @@ import javax.swing.table.DefaultTableModel;
 import javax.swing.border.TitledBorder;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
+import javax.swing.JScrollPane;
 
 @SuppressWarnings("serial")
 public class BusquedaPasajero extends JFrame {
@@ -32,7 +33,7 @@ public class BusquedaPasajero extends JFrame {
 	private JTextField txtApellido;
 	private JTextField txtNombre;
 	private JTextField txtNroDocumento;
-	private JTable tablaResultado;
+	private JTable table;
 
 	/**
 	 * Launch the application.
@@ -56,35 +57,12 @@ public class BusquedaPasajero extends JFrame {
 	public BusquedaPasajero() {
 		setTitle("Buscar Pasajeros");
 		setBackground(Color.LIGHT_GRAY);
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 		setBounds(100, 100, 784, 485);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
-		
-		tablaResultado = new JTable();
-		tablaResultado.setBorder(new TitledBorder(null, "Resultado B\u00FAsqueda", TitledBorder.LEADING, TitledBorder.TOP, null, null));
-		tablaResultado.setModel(new DefaultTableModel(
-			new Object[][] {
-			},
-			new String[] {
-				"Apellido", "Nombre", "Tipo Documento", "Nro Documento"
-			}
-		) {
-			boolean[] columnEditables = new boolean[] {
-				false, true, true, true
-			};
-			public boolean isCellEditable(int row, int column) {
-				return columnEditables[column];
-			}
-		});
-		tablaResultado.getColumnModel().getColumn(0).setPreferredWidth(86);
-		tablaResultado.getColumnModel().getColumn(1).setPreferredWidth(86);
-		tablaResultado.getColumnModel().getColumn(2).setPreferredWidth(87);
-		tablaResultado.getColumnModel().getColumn(3).setPreferredWidth(86);
-		tablaResultado.setBounds(742, 171, -725, 204);
-		contentPane.add(tablaResultado);
 		
 		Panel BusquedaPasajero = new Panel();
 		BusquedaPasajero.setBounds(10, 10, 748, 130);
@@ -152,28 +130,38 @@ public class BusquedaPasajero extends JFrame {
 		JButton btnCancelar = new JButton("Cancelar");
 		btnCancelar.setBounds(669, 412, 89, 23);
 		contentPane.add(btnCancelar);
-	
 		
-		JPanel panelResultadoBusqueda = new JPanel();
-		panelResultadoBusqueda.setBounds(10, 190, 748, 213);
-		contentPane.add(panelResultadoBusqueda);
-		panelResultadoBusqueda.setLayout(null);
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(10, 162, 748, 229);
+		contentPane.add(scrollPane);
 		
-		tablaResultado = new JTable();
-		tablaResultado.setModel(new DefaultTableModel(
+		table = new JTable();
+		scrollPane.setViewportView(table);
+		table.setModel(new DefaultTableModel(
 			new Object[][] {
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
+				{null, null, null, null},
 			},
 			new String[] {
-				"Apellido", "Nombre", "Tipo Documento", "Nro Documento"
+				"Apellido", "Nombre", "Tipo Documento", "Nro. Documento"
 			}
 		));
-		tablaResultado.getColumnModel().getColumn(0).setPreferredWidth(85);
-		tablaResultado.getColumnModel().getColumn(1).setPreferredWidth(85);
-		tablaResultado.getColumnModel().getColumn(2).setPreferredWidth(87);
-		tablaResultado.getColumnModel().getColumn(3).setPreferredWidth(85);
-		tablaResultado.setBorder(new LineBorder(new Color(0, 0, 0)));
-		tablaResultado.setBounds(34, 147, 683, -120);
-		panelResultadoBusqueda.add(tablaResultado);
+		table.getColumnModel().getColumn(0).setPreferredWidth(90);
+		table.getColumnModel().getColumn(1).setPreferredWidth(90);
+		table.getColumnModel().getColumn(2).setPreferredWidth(90);
+		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 	;
 		//textField.setColumns(10); Me tira Error!
 	}

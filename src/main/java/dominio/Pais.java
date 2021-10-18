@@ -24,13 +24,6 @@ public class Pais {
 	@OneToMany(mappedBy = "pais", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
 	private List<Provincia> provincias;
 
-	public Pais(int id, String nombre, List<Provincia> provincias) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.provincias = provincias;
-	}
-
 	public int getId() {
 		return id;
 	}

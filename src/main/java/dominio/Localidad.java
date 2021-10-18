@@ -27,14 +27,6 @@ public class Localidad {
 	@JoinColumn(name = "id_provincia", referencedColumnName = "id")
 	private Provincia provincia;
 
-	public Localidad(int id, String nombre, String codigoPostal, Provincia provincia) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-		this.codigoPostal = codigoPostal;
-		this.provincia = provincia;
-	}
-
 	public int getId() {
 		return id;
 	}

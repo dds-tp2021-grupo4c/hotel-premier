@@ -1,9 +1,9 @@
 package daos.interfaces.implementaciones;
 
 import java.util.List;
-
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import daos.interfaces.PersonaDao;
 import dominio.Pasajero;
 import dominio.PosicionFrenteIVA;
@@ -21,14 +21,27 @@ public class PersonaPostgreSQLDao implements PersonaDao {
 
 	@Override
 	public boolean existePasajeroConMismoTipoYnumeroDocumento(int tipoDocumentoID, String documento) {
-		// TODO Auto-generated method stub
-		return false;
+		Session session = sessionFactory.openSession();
+		Query<Pasajero> query = session.createQuery("SELECT p FROM Pasajero p WHERE p.tipoDocumento.id = :id and p.numDocumento = :doc", Pasajero.class);
+		query.setParameter("id", tipoDocumentoID);
+		query.setParameter("doc", documento);
+		Pasajero pasajero = query.getSingleResult();
+		return pasajero != null;
 	}
 
 	@Override
-	public List<Pasajero> buscarPasajero(BusquedaPasajeroDTO pasajeroDTO) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Pasajero> buscarPasajeros(BusquedaPasajeroDTO pasajeroDTO) {
+		Session session = sessionFactory.openSession();
+		String consulta = "SELECT p FROM Pasajero p WHERE p.nombre like :nombre and p.apellido like :apellido ";
+		if(!pasajeroDTO.getDocumento().equals("")) consulta += "and p.numDocumento = :doc ";
+		if(pasajeroDTO.getTipoDocumentoID() != 0) consulta += "and p.tipoDocumento.id = :tipoDoc";
+		Query<Pasajero >query = session.createQuery(consulta, Pasajero.class);
+		query.setParameter("nombre", pasajeroDTO.getNombre()+"%");
+		query.setParameter("apellido", pasajeroDTO.getApellido()+"%");
+		if(!pasajeroDTO.getDocumento().equals("")) query.setParameter("doc", pasajeroDTO.getDocumento());
+		if(pasajeroDTO.getTipoDocumentoID() != 0) query.setParameter("tipoDoc", pasajeroDTO.getTipoDocumentoID());
+		List<Pasajero> pasajeros = query.list();
+		return pasajeros;
 	}
 
 	@Override

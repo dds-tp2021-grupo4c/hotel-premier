@@ -11,8 +11,6 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
-import dtos.AltaPasajeroDTO;
-
 @Entity
 @Table(name = "pasajero")
 public class Pasajero {
@@ -71,60 +69,6 @@ public class Pasajero {
 	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_localidad", referencedColumnName = "id")
 	private Localidad localidad;
-
-	public Pasajero() {
-	}
-
-	public Pasajero(int id, String apellido, String nombre, String numDocumento, String telefono, String cuit,
-			LocalDate fechaNac, String email, String nacionalidad, String calle, String numero, String departamento,
-			int piso, TipoDocumento tipoDocumento, PosicionFrenteIVA posicionFrenteIva, Profesion profesion,
-			Localidad localidad) {
-		super();
-		this.id = id;
-		this.apellido = apellido;
-		this.nombre = nombre;
-		this.numDocumento = numDocumento;
-		this.telefono = telefono;
-		this.cuit = cuit;
-		this.fechaNac = fechaNac;
-		this.email = email;
-		this.nacionalidad = nacionalidad;
-		this.calle = calle;
-		this.numero = numero;
-		this.departamento = departamento;
-		this.piso = piso;
-		this.tipoDocumento = tipoDocumento;
-		this.posicionFrenteIva = posicionFrenteIva;
-		this.profesion = profesion;
-		this.localidad = localidad;
-	}
-	
-	public Pasajero(AltaPasajeroDTO p) {
-		super();
-		//this.id = id; Como lo implementamos
-		this.apellido = p.getApellido();
-		this.nombre = p.getNombre();
-		this.numDocumento = p.getNumero();
-		this.telefono = p.getTelefono();
-		this.cuit = p.getCuit();
-		this.fechaNac = p.getFechaNacimiento();
-		this.email = p.getEmail();
-		this.nacionalidad = p.getNacionalidad();
-		this.calle = p.getCalle();
-		this.numero = p.getNumero();
-		this.departamento = p.getDepartamento();
-		this.piso = p.getPiso();
-		/*this.tipoDocumento = p.getTipoDocumentoID();
-		this.posicionFrenteIva = p.getPosicionFrenteIVAID();
-		this.profesion = p.getProfesionID();
-		this.localidad = p.getLocalidadID();*/
-		
-		//REDEFINIR EN EL DTO DE PASAJERO:
-		// posicionFrenteIVA es del tipo PosicionFrenteIVA
-		// profesion del tipor Profesion
-		//localidad del tipo Localidad
-		
-	}
 
 	public int getId() {
 		return id;

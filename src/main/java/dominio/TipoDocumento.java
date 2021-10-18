@@ -17,12 +17,6 @@ public class TipoDocumento {
 	@Column
 	private String nombre;
 
-	public TipoDocumento(int id, String nombre) {
-		super();
-		this.id = id;
-		this.nombre = nombre;
-	}
-
 	public int getId() {
 		return id;
 	}

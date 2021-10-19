@@ -11,69 +11,103 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.ImageIcon;
+import javax.swing.SwingConstants;
+import java.awt.Toolkit;
 
 public class MenuPrincipal extends JFrame {
 
 	private JPanel contentPane;
-
-
+	
 	/**
 	 * Create the frame.
 	 */
 	public MenuPrincipal() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(MenuPrincipal.class.getResource("/icons/HotelPremier.png")));
 		setResizable(false);
 		setTitle("Hotel Premier - Men\u00FA Principal");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 719, 350);
+		setBounds(100, 100, 719, 401);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton btnGestionPasajero = new JButton("Gestionar Pasajero");
-		btnGestionPasajero.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnGestionPasajero.setHorizontalAlignment(SwingConstants.LEFT);
+		btnGestionPasajero.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/GestionarPasajero.png")));
+		btnGestionPasajero.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnGestionPasajero.setBounds(90, 28, 243, 43);
 		contentPane.add(btnGestionPasajero);
 		
 		JButton btnGestionarRespPago = new JButton("Gestionar Responsable Pago");
-		btnGestionarRespPago.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnGestionarRespPago.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/ResponsablePago.png")));
+		btnGestionarRespPago.setHorizontalAlignment(SwingConstants.LEFT);
+		btnGestionarRespPago.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnGestionarRespPago.setBounds(388, 30, 240, 43);
 		contentPane.add(btnGestionarRespPago);
 		
 		JButton btnFacturar = new JButton("Facturar");
-		btnFacturar.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnFacturar.setHorizontalAlignment(SwingConstants.LEFT);
+		btnFacturar.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/Factura.png")));
+		btnFacturar.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnFacturar.setBounds(90, 82, 243, 43);
 		contentPane.add(btnFacturar);
 		
 		JButton btnOcuparHab = new JButton("Ocupar Habitaci\u00F3n");
-		btnOcuparHab.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnOcuparHab.setBounds(90, 136, 243, 43);
+		btnOcuparHab.setHorizontalAlignment(SwingConstants.LEFT);
+		btnOcuparHab.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/OcuparHabitacion.png")));
+		btnOcuparHab.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnOcuparHab.setBounds(90, 142, 243, 43);
 		contentPane.add(btnOcuparHab);
 		
-		JButton btnGestionarListados = new JButton("Gestionar Listados");
-		btnGestionarListados.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnGestionarListados.setBounds(388, 192, 240, 42);
-		contentPane.add(btnGestionarListados);
+		JButton btnCancelarReserva = new JButton("Cancelar Reserva");
+		btnCancelarReserva.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/CancelarReserva.png")));
+		btnCancelarReserva.setHorizontalAlignment(SwingConstants.LEFT);
+		btnCancelarReserva.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnCancelarReserva.setBounds(388, 206, 240, 42);
+		contentPane.add(btnCancelarReserva);
 		
 		JButton btnReservarHab = new JButton("Reservar Habitaci\u00F3n");
-		btnReservarHab.setFont(new Font("Tahoma", Font.BOLD, 16));
+		btnReservarHab.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/ReservarHabitacion.png")));
+		btnReservarHab.setHorizontalAlignment(SwingConstants.LEFT);
+		btnReservarHab.setFont(new Font("Dialog", Font.BOLD, 14));
 		btnReservarHab.setBounds(388, 84, 240, 42);
 		contentPane.add(btnReservarHab);
 		
 		JButton btnIngresarNC = new JButton("Ingresar Nota de Cr\u00E9dito");
-		btnIngresarNC.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnIngresarNC.setBounds(90, 190, 243, 43);
+		btnIngresarNC.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/NotadeCredito.png")));
+		btnIngresarNC.setHorizontalAlignment(SwingConstants.LEFT);
+		btnIngresarNC.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnIngresarNC.setBounds(90, 206, 243, 43);
 		contentPane.add(btnIngresarNC);
 		
 		JButton btnIngresarPago = new JButton("Ingresar Pago");
-		btnIngresarPago.setFont(new Font("Tahoma", Font.BOLD, 16));
-		btnIngresarPago.setBounds(388, 138, 240, 42);
+		btnIngresarPago.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/IngresarPago.png")));
+		btnIngresarPago.setHorizontalAlignment(SwingConstants.LEFT);
+		btnIngresarPago.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnIngresarPago.setBounds(388, 142, 240, 42);
 		contentPane.add(btnIngresarPago);
 		
 		JButton btnSalir = new JButton("Salir");
-		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 17));
-		btnSalir.setBounds(302, 268, 96, 29);
+		btnSalir.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/LogOut.png")));
+		btnSalir.setFont(new Font("Dialog", Font.BOLD, 14));
+		btnSalir.setBounds(305, 322, 137, 29);
 		contentPane.add(btnSalir);
+		
+		JButton btnListarCheques = new JButton("Listar Cheques");
+		btnListarCheques.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/ListarCheques.png")));
+		btnListarCheques.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnListarCheques.setHorizontalAlignment(SwingConstants.LEFT);
+		btnListarCheques.setBounds(93, 260, 240, 42);
+		contentPane.add(btnListarCheques);
+		
+		JButton btnListarIngresos = new JButton("Listar Ingresos");
+		btnListarIngresos.setFont(new Font("Tahoma", Font.BOLD, 14));
+		btnListarIngresos.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/ListarIngresos.png")));
+		btnListarIngresos.setHorizontalAlignment(SwingConstants.LEFT);
+		btnListarIngresos.setBounds(388, 259, 240, 40);
+		contentPane.add(btnListarIngresos);
 		
 
 		//Acciones de los botones
@@ -106,6 +140,4 @@ public class MenuPrincipal extends JFrame {
 		});
 	
 	}
-
-	
 }

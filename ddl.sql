@@ -47,7 +47,7 @@ nacionalidad varchar(30) not null,
 calle varchar(50) not null,
 nro_calle varchar(10) not null,
 departamento varchar(10),
-piso integer,
+piso varchar(10),
 id_profesion integer references profesion(id) not null,
 id_localidad integer references localidad(id) not null ,
 id_tipo_documento integer references tipo_documento(id) not null,
@@ -71,7 +71,7 @@ telefono varchar(30) not null,
 cuit varchar(13) not null,
 razon_social varchar(50) not null,
 departamento varchar(10),
-piso integer,
+piso varchar(10),
 id_localidad integer references localidad(id) not null);
 
 create table costo(

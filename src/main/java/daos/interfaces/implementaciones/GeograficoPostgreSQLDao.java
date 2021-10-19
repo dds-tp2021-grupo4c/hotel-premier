@@ -30,6 +30,7 @@ public class GeograficoPostgreSQLDao implements GeograficoDao {
 		Session session = sessionFactory.openSession();
 		Query<Pais> query = session.createQuery("SELECT p FROM Pais p", Pais.class);
 		List<Pais> paises = query.list();
+		session.close();
 		return paises;
 	}
 
@@ -39,6 +40,7 @@ public class GeograficoPostgreSQLDao implements GeograficoDao {
 		Query<Provincia> query = session.createQuery("SELECT pr FROM Provincia pr WHERE pr.pais.id = :id", Provincia.class);
 		query.setParameter("id", paisID);
 		List<Provincia> provincias = query.list();
+		session.close();
 		return provincias;
 	}
 
@@ -48,6 +50,7 @@ public class GeograficoPostgreSQLDao implements GeograficoDao {
 		Query<Localidad> query = session.createQuery("SELECT l FROM Localidad l WHERE l.provincia.id = :id", Localidad.class);
 		query.setParameter("id", provinciaID);
 		List<Localidad> localidades = query.list();
+		session.close();
 		return localidades;
 	}
 }

@@ -26,6 +26,7 @@ public class PersonaPostgreSQLDao implements PersonaDao {
 		query.setParameter("id", tipoDocumentoID);
 		query.setParameter("doc", documento);
 		Pasajero pasajero = query.getSingleResult();
+		session.close();
 		return pasajero != null;
 	}
 
@@ -41,6 +42,7 @@ public class PersonaPostgreSQLDao implements PersonaDao {
 		if(!pasajeroDTO.getDocumento().equals("")) query.setParameter("doc", pasajeroDTO.getDocumento());
 		if(pasajeroDTO.getTipoDocumentoID() != 0) query.setParameter("tipoDoc", pasajeroDTO.getTipoDocumentoID());
 		List<Pasajero> pasajeros = query.list();
+		session.close();
 		return pasajeros;
 	}
 

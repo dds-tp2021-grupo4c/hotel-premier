@@ -13,7 +13,7 @@ public class AltaPasajeroDTO {
 	private String calle;
 	private String numero;
 	private String departamento;
-	private int piso;
+	private String piso;
 	private int localidadID;
 	private String telefono;
 	private String email;
@@ -22,7 +22,7 @@ public class AltaPasajeroDTO {
 
 	public AltaPasajeroDTO(String apellido, String nombre, int tipoDocumentoID, String documento, String cuit,
 			int posicionFrenteIVAID, LocalDate fechaNacimiento, String calle, String numero, String departamento,
-			int piso, int localidadID, String telefono, String email, int profesionID,
+			String piso, int localidadID, String telefono, String email, int profesionID,
 			String nacionalidad) {
 		super();
 		this.apellido = apellido;
@@ -83,7 +83,7 @@ public class AltaPasajeroDTO {
 		return departamento;
 	}
 
-	public int getPiso() {
+	public String getPiso() {
 		return piso;
 	}
 

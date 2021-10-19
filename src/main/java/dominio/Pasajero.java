@@ -52,7 +52,7 @@ public class Pasajero {
 	private String departamento;
 
 	@Column
-	private int piso;
+	private String piso;
 
 	@OneToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_tipo_documento", referencedColumnName = "id")
@@ -166,11 +166,11 @@ public class Pasajero {
 		this.departamento = departamento;
 	}
 
-	public int getPiso() {
+	public String getPiso() {
 		return piso;
 	}
 
-	public void setPiso(int piso) {
+	public void setPiso(String piso) {
 		this.piso = piso;
 	}
 

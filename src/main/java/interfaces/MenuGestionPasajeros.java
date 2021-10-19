@@ -11,6 +11,8 @@ import javax.swing.JButton;
 import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.SwingConstants;
+import javax.swing.ImageIcon;
 
 public class MenuGestionPasajeros extends JFrame {
 
@@ -39,35 +41,45 @@ public class MenuGestionPasajeros extends JFrame {
 		setTitle("Gestor de Pasajeros");
 		setResizable(false);
 		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		setBounds(100, 100, 450, 333);
+		setBounds(100, 100, 450, 271);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 		setContentPane(contentPane);
 		contentPane.setLayout(null);
 		
 		JButton btnAltaPasaj = new JButton("Alta de Pasajero");
+		btnAltaPasaj.setIcon(new ImageIcon(MenuGestionPasajeros.class.getResource("/icons/A\u00F1adir.png")));
+		btnAltaPasaj.setHorizontalAlignment(SwingConstants.LEFT);
 		btnAltaPasaj.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnAltaPasaj.setBounds(16, 51, 180, 23);
+		btnAltaPasaj.setBounds(16, 38, 180, 36);
 		contentPane.add(btnAltaPasaj);
 		
 		JButton btnBuscarPasaj = new JButton("Buscar Pasajero");
+		btnBuscarPasaj.setIcon(new ImageIcon(MenuGestionPasajeros.class.getResource("/icons/Buscar.png")));
+		btnBuscarPasaj.setHorizontalAlignment(SwingConstants.LEFT);
 		btnBuscarPasaj.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnBuscarPasaj.setBounds(229, 51, 180, 23);
+		btnBuscarPasaj.setBounds(229, 38, 180, 36);
 		contentPane.add(btnBuscarPasaj);
 		
 		JButton btnModificaPasaj = new JButton("Modificar Pasajero");
+		btnModificaPasaj.setIcon(new ImageIcon(MenuGestionPasajeros.class.getResource("/icons/Editar.png")));
+		btnModificaPasaj.setHorizontalAlignment(SwingConstants.LEFT);
 		btnModificaPasaj.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnModificaPasaj.setBounds(16, 105, 180, 23);
+		btnModificaPasaj.setBounds(16, 92, 180, 36);
 		contentPane.add(btnModificaPasaj);
 		
 		JButton btnSalir = new JButton("Salir");
+		btnSalir.setIcon(new ImageIcon(MenuGestionPasajeros.class.getResource("/icons/LogOut.png")));
+		btnSalir.setHorizontalAlignment(SwingConstants.LEFT);
 		btnSalir.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnSalir.setBounds(153, 173, 137, 23);
+		btnSalir.setBounds(153, 160, 137, 36);
 		contentPane.add(btnSalir);
 		
 		JButton btnRegistraAcom = new JButton("Registrar Acompa\u00F1ante");
+		btnRegistraAcom.setIcon(new ImageIcon(MenuGestionPasajeros.class.getResource("/icons/RegistrarAcompaniante.png")));
+		btnRegistraAcom.setHorizontalAlignment(SwingConstants.LEFT);
 		btnRegistraAcom.setFont(new Font("Tahoma", Font.BOLD, 11));
-		btnRegistraAcom.setBounds(229, 105, 180, 23);
+		btnRegistraAcom.setBounds(229, 92, 180, 36);
 		contentPane.add(btnRegistraAcom);
 		
 		//Acciones de los botones

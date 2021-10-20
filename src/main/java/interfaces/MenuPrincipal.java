@@ -127,7 +127,7 @@ public class MenuPrincipal extends JFrame {
 				opciones
 				[JOptionPane.showOptionDialog(
 					MenuPrincipal.this, 
-					"¿Desea cancelar el alta de pasajero?", 
+					"¿Desea salir del sistema?", 
 					"", 
 					JOptionPane.DEFAULT_OPTION, 
 					JOptionPane.QUESTION_MESSAGE, 

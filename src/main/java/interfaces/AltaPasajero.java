@@ -8,7 +8,13 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.border.Border;
 import javax.swing.border.EmptyBorder;
+
+import dominio.Pais;
+import dominio.PosicionFrenteIVA;
+import dominio.TipoDocumento;
+
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
@@ -32,22 +38,9 @@ public class AltaPasajero extends JFrame {
 	private JTextField txtCodPostal;
 	private JTextField txtEmail;
 	private JTextField txtNacionalidad;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					AltaPasajero frame = new AltaPasajero();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	private JComboBox<TipoDocumento> cbTipoDocumento;
+	private JComboBox<PosicionFrenteIVA> cbPosFrenteIVA;
+	private JComboBox<Pais> cbPais;
 
 	/**
 	 * Create the frame.
@@ -248,7 +241,101 @@ public class AltaPasajero extends JFrame {
 		JLabel lblInfo = new JLabel("(*) Son campos Requeridos");
 		lblInfo.setBounds(10, 415, 159, 14);
 		panel.add(lblInfo);
+		
+		//Acciones de los botones
+		
+		//Botón Siguiente
+		//Validamos los campos
+		btnSiguiente.addActionListener(l ->{
+			CamposVacios();
+		});
+		
+		
+		
+		//Botón cancelar
+		btnCancelar.addActionListener(e -> 
+		{
+			Object[] opciones = {"No", "Sí"};
+			
+			if 
+			(	
+				opciones
+				[JOptionPane.showOptionDialog(
+					AltaPasajero.this, 
+					"¿Desea cancelar la operación?", 
+					"", 
+					JOptionPane.DEFAULT_OPTION, 
+					JOptionPane.QUESTION_MESSAGE, 
+					null, 
+					opciones,
+					opciones[0]
+				)] == opciones[1]
+			)
+				this.setVisible(false);
+				
+			
+			// TODO: volver al menu anterior
+		});
 	}
 	
-	
+	protected void CamposVacios() {
+		if(txtApellido.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Apellido es requerido.");
+		}
+		if(txtNombre.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Nombre es requerido.");
+		}
+		//VER ESTO, NO FUNCIONA
+		if(cbTipoDocumento.getSelectedItem()== null) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "Debe seleccionar un Tipo de Documento. Es campo requerido.");
+		}
+		if(txtNroDocumento.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Número de Documento es requerido.");
+		}
+		//VER ESTO, NO FUNCIONA
+		/*
+		if(cbPosFrenteIVA.getSelectedItem()== null) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "Debe seleccionar una Posición en IVA. Es campo requerido.");
+		}*/
+		
+		if(txtCuit.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo CUIT es requerido.");
+		}
+		//VER FECHA NACIMIENTO
+		/*if(cbFechaNac.getSelectedItem()== null) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "Debe seleccionar una Posición en IVA. Es campo requerido.");
+		}*/
+		if(txtCalle.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Calle es requerido.");
+		}
+		if(txtNumero.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Número es requerido.");
+		}
+		//VER NO FUNCIONA
+		/*if(cbPais.getSelectedItem()== null) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "Debe seleccionar un País. Es campo requerido.");
+		}*/
+		if(txtProvincia.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Provincia es requerido.");
+		}
+		if(txtLocalidad.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Localidad es requerido.");
+		}
+		if(txtCodPostal.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Código Postal es requerido.");
+		}
+		if(txtTelefono.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Telefono es requerido.");
+		}
+		if(txtNumero.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Número de Teléfono es requerido.");
+		}
+		if(txtOcupacion.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Ocupación es requerido.");
+		}
+		if(txtNacionalidad.getText().isBlank()) {
+			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Nacionalidad es requerido.");
+		}
+	}
+		
 }

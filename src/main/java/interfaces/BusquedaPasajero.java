@@ -14,6 +14,7 @@ import javax.swing.JTextField;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.SwingConstants;
 import javax.swing.JEditorPane;
 import java.awt.Panel;
@@ -34,22 +35,6 @@ public class BusquedaPasajero extends JFrame {
 	private JTextField txtNombre;
 	private JTextField txtNroDocumento;
 	private JTable table;
-
-	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					BusquedaPasajero frame = new BusquedaPasajero();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 
 	/**
 	 * Create the frame.
@@ -164,5 +149,33 @@ public class BusquedaPasajero extends JFrame {
 		table.getColumnModel().getColumn(3).setPreferredWidth(90);
 	;
 		//textField.setColumns(10); Me tira Error!
+	
+	//Acciones de los botones
+	//Botón cancelar
+	btnCancelar.addActionListener(e -> 
+	{
+		Object[] opciones = {"No", "Sí"};
+		
+		if 
+		(	
+			opciones
+			[JOptionPane.showOptionDialog(
+				BusquedaPasajero.this, 
+				"¿Desea cancelar la operación?", 
+				"", 
+				JOptionPane.DEFAULT_OPTION, 
+				JOptionPane.QUESTION_MESSAGE, 
+				null, 
+				opciones,
+				opciones[0]
+			)] == opciones[1]
+		)
+			this.setVisible(false);
+			
+		
+		// TODO: volver al menu anterior
+	});
+	
 	}
+	
 }

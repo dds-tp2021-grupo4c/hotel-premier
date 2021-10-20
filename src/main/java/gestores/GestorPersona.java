@@ -97,7 +97,7 @@ public final class GestorPersona {
 		personaFactory = PersonaFactoryDao.getFactory(PersonaFactoryDao.POSTGRESQL_FACTORY);
 		personaDao = personaFactory.getPersonaDAO();
 		if(altaPasajeroDto.getApellido().equals("") || altaPasajeroDto.getNombre().equals("") || altaPasajeroDto.getTipoDocumentoID() == 0
-				|| altaPasajeroDto.getDocumento().equals("") || altaPasajeroDto.getFechaNacimiento() != null || altaPasajeroDto.getCalle().equals("")
+				|| altaPasajeroDto.getDocumento().equals("") || altaPasajeroDto.getFechaNacimiento() == null || altaPasajeroDto.getCalle().equals("")
 				|| altaPasajeroDto.getNumero().equals("") || altaPasajeroDto.getLocalidadID() == 0 || altaPasajeroDto.getTelefono().equals("")
 				|| altaPasajeroDto.getProfesionID() == 0 || altaPasajeroDto.getNacionalidad().equals("")) return false;
 		if(personaDao.getPosicionFrenteIVAById(altaPasajeroDto.getPosicionFrenteIVAID()).getNombre().equalsIgnoreCase("responsable inscripto")

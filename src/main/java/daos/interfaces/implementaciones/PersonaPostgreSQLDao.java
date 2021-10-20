@@ -1,6 +1,7 @@
 package daos.interfaces.implementaciones;
 
 import java.util.List;
+import javax.persistence.NoResultException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.query.Query;
@@ -25,7 +26,11 @@ public class PersonaPostgreSQLDao implements PersonaDao {
 		Query<Pasajero> query = session.createQuery("SELECT p FROM Pasajero p WHERE p.tipoDocumento.id = :id and p.numDocumento = :doc", Pasajero.class);
 		query.setParameter("id", tipoDocumentoID);
 		query.setParameter("doc", documento);
-		Pasajero pasajero = query.getSingleResult();
+		Pasajero pasajero = null;
+		try {
+			pasajero = query.getSingleResult();
+		} catch (NoResultException e) {
+		}
 		session.close();
 		return pasajero != null;
 	}

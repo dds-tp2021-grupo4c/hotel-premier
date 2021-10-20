@@ -19,22 +19,6 @@ public class MenuGestionPasajeros extends JFrame {
 	private JPanel contentPane;
 
 	/**
-	 * Launch the application.
-	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					MenuGestionPasajeros frame = new MenuGestionPasajeros();
-					frame.setVisible(true);
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
-
-	/**
 	 * Create the frame.
 	 */
 	public MenuGestionPasajeros() {
@@ -110,7 +94,7 @@ public class MenuGestionPasajeros extends JFrame {
 				opciones
 				[JOptionPane.showOptionDialog(
 					MenuGestionPasajeros.this, 
-					"¿Desea cancelar el alta de pasajero?", 
+					"¿Desea salir del menú Gestión de Pasajeros?", 
 					"", 
 					JOptionPane.DEFAULT_OPTION, 
 					JOptionPane.QUESTION_MESSAGE, 
@@ -119,7 +103,8 @@ public class MenuGestionPasajeros extends JFrame {
 					opciones[0]
 				)] == opciones[1]
 			)
-				System.exit(0); 
+				this.setVisible(false);
+				
 			
 			// TODO: volver al menu anterior
 		});

@@ -20,6 +20,9 @@ import javax.swing.JComboBox;
 import javax.swing.SwingConstants;
 import javax.swing.JButton;
 
+import com.toedter.calendar.JCalendar;
+import com.toedter.calendar.JDateChooser;
+
 public class AltaPasajero extends JFrame {
 
 	private JPanel contentPane;
@@ -41,6 +44,7 @@ public class AltaPasajero extends JFrame {
 	private JComboBox<TipoDocumento> cbTipoDocumento;
 	private JComboBox<PosicionFrenteIVA> cbPosFrenteIVA;
 	private JComboBox<Pais> cbPais;
+	private JDateChooser dateChooser;
 
 	/**
 	 * Create the frame.
@@ -91,10 +95,6 @@ public class AltaPasajero extends JFrame {
 		JLabel lblFechaNac = new JLabel("Fecha  Nacimiento (*):");
 		lblFechaNac.setBounds(10, 120, 131, 14);
 		panel.add(lblFechaNac);
-		
-		JComboBox cbFechaNc = new JComboBox();
-		cbFechaNc.setBounds(152, 115, 189, 24);
-		panel.add(cbFechaNc);
 		
 		JLabel lblCalle = new JLabel("Calle (*):");
 		lblCalle.setBounds(10, 166, 58, 14);
@@ -242,6 +242,10 @@ public class AltaPasajero extends JFrame {
 		lblInfo.setBounds(10, 415, 159, 14);
 		panel.add(lblInfo);
 		
+		JDateChooser dateChooser = new JDateChooser();
+		dateChooser.setBounds(152, 115, 189, 20);
+		panel.add(dateChooser);
+		
 		//Acciones de los botones
 		
 		//Botón Siguiente
@@ -293,18 +297,18 @@ public class AltaPasajero extends JFrame {
 			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Número de Documento es requerido.");
 		}
 		//VER ESTO, NO FUNCIONA
-		/*
+		
 		if(cbPosFrenteIVA.getSelectedItem()== null) {
 			JOptionPane.showMessageDialog(AltaPasajero.this, "Debe seleccionar una Posición en IVA. Es campo requerido.");
-		}*/
+		}
 		
 		if(txtCuit.getText().isBlank()) {
 			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo CUIT es requerido.");
 		}
 		//VER FECHA NACIMIENTO
-		/*if(cbFechaNac.getSelectedItem()== null) {
+		if(dateChooser.getDate() == null) {
 			JOptionPane.showMessageDialog(AltaPasajero.this, "Debe seleccionar una Posición en IVA. Es campo requerido.");
-		}*/
+		}
 		if(txtCalle.getText().isBlank()) {
 			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Calle es requerido.");
 		}
@@ -312,9 +316,9 @@ public class AltaPasajero extends JFrame {
 			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Número es requerido.");
 		}
 		//VER NO FUNCIONA
-		/*if(cbPais.getSelectedItem()== null) {
+		if(cbPais.getSelectedItem()== null) {
 			JOptionPane.showMessageDialog(AltaPasajero.this, "Debe seleccionar un País. Es campo requerido.");
-		}*/
+		}
 		if(txtProvincia.getText().isBlank()) {
 			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Provincia es requerido.");
 		}
@@ -337,5 +341,4 @@ public class AltaPasajero extends JFrame {
 			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Nacionalidad es requerido.");
 		}
 	}
-		
 }

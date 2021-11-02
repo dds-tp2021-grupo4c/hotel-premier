@@ -14,5 +14,7 @@ public interface PersonaDao {
 	public PosicionFrenteIVA getPosicionFrenteIVAById(int posicionFrenteIVAID);
 	public Profesion getProfesiondById(int profesionID);
 	public List<TipoDocumento> getAllTipoDocumentos();
+	public List<PosicionFrenteIVA> getAllPosicionesFrenteIVA();
+	public List<Profesion> getAllProfesiones();
 	public int save(Pasajero pasajero);
 }

@@ -76,6 +76,22 @@ public class PersonaPostgreSQLDao implements PersonaDao {
 	}
 
 	@Override
+	public List<PosicionFrenteIVA> getAllPosicionesFrenteIVA() {
+		Session session = HibernateUtil.getSession();
+		Query<PosicionFrenteIVA> query = session.createQuery("SELECT p FROM PosicionFrenteIVA p", PosicionFrenteIVA.class);
+		List<PosicionFrenteIVA> tiposPosIVA = query.list();
+		return tiposPosIVA;
+	}
+
+	@Override
+	public List<Profesion> getAllProfesiones() {
+		Session session = HibernateUtil.getSession();
+		Query<Profesion> query = session.createQuery("SELECT p FROM Profesion p", Profesion.class);
+		List<Profesion> tiposProfesiones = query.list();
+		return tiposProfesiones;
+	}
+
+	@Override
 	public int save(Pasajero pasajero) {
 		Session session = HibernateUtil.getSession();
 		session.beginTransaction();

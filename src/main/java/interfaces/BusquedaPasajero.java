@@ -8,6 +8,7 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
@@ -18,6 +19,8 @@ import gestores.GestorPersona;
 import util.UppercaseDocumentFilter;
 import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
+import javax.swing.table.TableRowSorter;
 import javax.swing.border.LineBorder;
 import java.awt.Color;
 
@@ -37,6 +40,14 @@ public class BusquedaPasajero extends JPanel {
 		this.padre = padre;
 		this.setLayout(null);
 		this.armarPanel();
+	}
+
+	public void interfazPorDefecto() {
+		txtApellido.setText("");
+		txtNombre.setText("");
+		txtNroDocumento.setText("");
+		cbTipoDocumento.setSelectedIndex(0);
+		resetTable(table);
 	}
 
 	private void armarPanel() {
@@ -98,6 +109,11 @@ public class BusquedaPasajero extends JPanel {
 					if(pasajeros != null) {
 						llenarTable(pasajeros);
 					}
+					else {
+						JOptionPane.showMessageDialog(this, "No se encontraron resultados con los criterios seleccionados", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+						ventana.setContentPane(new AltaPasajero(ventana, this));
+						ventana.setVisible(true);
+					}
 				}
 		);
 		btnBuscar.setBounds(548, 96, 89, 23);
@@ -141,6 +157,8 @@ public class BusquedaPasajero extends JPanel {
 	private void llenarComboBoxTipoDocumentos() {
 		List<TipoDocumentoDTO> listasDoc = gestorPersona.getTiposDocumentos();
 		cbTipoDocumento.removeAllItems();
+		TipoDocumentoDTO seleccionar = new TipoDocumentoDTO(0, "<SELECCIONAR>");
+		cbTipoDocumento.addItem(seleccionar);
 		listasDoc.sort((t1,t2) -> t1.getNombre().compareTo(t2.getNombre()));
 		for(TipoDocumentoDTO unTipoDoc : listasDoc) {
 			cbTipoDocumento.addItem(unTipoDoc);
@@ -158,6 +176,9 @@ public class BusquedaPasajero extends JPanel {
 		}
 		DefaultTableModel modelo = new DefaultTableModel(data, columnNames);
 		table.setModel(modelo);
+		TableRowSorter<TableModel> elQueOrdena = new TableRowSorter<TableModel>(modelo);
+		table.setRowSorter(elQueOrdena);
+		table.getRowSorter().toggleSortOrder(0);//Ordena por la primer columna por defecto
 	}
 
 	private void crearTablePorDefecto() {
@@ -198,5 +219,13 @@ public class BusquedaPasajero extends JPanel {
 		table.getColumnModel().getColumn(1).setPreferredWidth(90);
 		table.getColumnModel().getColumn(2).setPreferredWidth(90);
 		table.getColumnModel().getColumn(3).setPreferredWidth(90);
+	}
+
+	private void resetTable(JTable table) {
+		for(int i=0;i<table.getRowCount();i++) {
+			for(int j=0;j<table.getColumnCount();j++) {
+				table.setValueAt("", i, j);
+			}
+		}
 	}
 }

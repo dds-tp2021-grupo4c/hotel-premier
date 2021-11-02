@@ -1,6 +1,7 @@
 package dominio;
 
-import java.time.LocalDate;
+import java.util.Date;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -34,7 +35,7 @@ public class Pasajero {
 	private String cuit;
 
 	@Column(name = "fecha_nacimiento")
-	private LocalDate fechaNac;
+	private Date fechaNac;
 
 	@Column
 	private String email;
@@ -118,11 +119,11 @@ public class Pasajero {
 		this.cuit = cuit;
 	}
 
-	public LocalDate getFechaNac() {
+	public Date getFechaNac() {
 		return fechaNac;
 	}
 
-	public void setFechaNac(LocalDate fechaNac) {
+	public void setFechaNac(Date fechaNac) {
 		this.fechaNac = fechaNac;
 	}
 

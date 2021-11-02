@@ -1,28 +1,31 @@
 package interfaces;
 
-import java.awt.BorderLayout;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.text.ParseException;
 import java.util.Date;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
-import javax.swing.BorderFactory;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
-import javax.swing.border.EmptyBorder;
 import javax.swing.text.AbstractDocument;
 import javax.swing.text.DocumentFilter;
 import javax.swing.text.MaskFormatter;
 
+import dtos.AltaPasajeroDTO;
 import dtos.LocalidadDTO;
 import dtos.PaisDTO;
 import dtos.PosicionFrenteIvaDTO;
 import dtos.ProfesionDTO;
 import dtos.ProvinciaDTO;
 import dtos.TipoDocumentoDTO;
+import excepciones.DatosNoValidosException;
+import excepciones.ExistePasajeroException;
 import gestores.GestorGeografico;
 import gestores.GestorPersona;
 import util.UppercaseDocumentFilter;
@@ -32,10 +35,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.JComboBox;
 import javax.swing.JFormattedTextField;
-import javax.swing.SwingConstants;
 import javax.swing.JButton;
 import com.toedter.calendar.JDateChooser;
-
 
 @SuppressWarnings("serial")
 public class AltaPasajero extends JPanel {
@@ -175,6 +176,7 @@ public class AltaPasajero extends JPanel {
 		this.add(cbPosFrenteIVA,gbc);
 		gbc.weightx = 0.0;
 		gbc.fill = GridBagConstraints.NONE;
+		llenarComboBoxPosicionesFrenteIVA();
 		
 		lblCUIT = new JLabel("CUIT");
 		gbc.gridx = 3;
@@ -325,11 +327,23 @@ public class AltaPasajero extends JPanel {
 		gbc.weightx = 0.0;
 		gbc.fill = GridBagConstraints.NONE;
 		llenarComboBoxPais();
-		cbPais.addActionListener(
-				e -> {
+		cbPais.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					cbProvincia.removeAllItems();
+					cbLocalidad.removeAllItems();
 					llenarComboBoxProvincias((PaisDTO) cbPais.getSelectedItem());
 				}
-		);
+			}
+		});
+		/*cbPais.addActionListener(
+				e -> {
+					cbProvincia.removeAllItems();
+					cbLocalidad.removeAllItems();
+					llenarComboBoxProvincias((PaisDTO) cbPais.getSelectedItem());
+				}
+		);*/
 		
 		lblProvincia = new JLabel("Provincia (*)");
 		gbc.gridx = 3;
@@ -350,10 +364,20 @@ public class AltaPasajero extends JPanel {
 		this.add(cbProvincia,gbc);
 		gbc.weightx = 0.0;
 		gbc.fill = GridBagConstraints.NONE;
-	/*	llenarComboBoxProvincias((PaisDTO) cbPais.getSelectedItem());
+		llenarComboBoxProvincias((PaisDTO) cbPais.getSelectedItem());
 		cbProvincia.setSelectedIndex(19);
-		cbProvincia.addActionListener(
+		cbProvincia.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					cbLocalidad.removeAllItems();
+					llenarComboBoxLocalidades((ProvinciaDTO) cbProvincia.getSelectedItem());
+				}
+			}
+		});
+	/*	cbProvincia.addActionListener(
 				e -> {
+					cbLocalidad.removeAllItems();
 					llenarComboBoxLocalidades((ProvinciaDTO) cbProvincia.getSelectedItem());
 				}
 		);*/
@@ -377,7 +401,15 @@ public class AltaPasajero extends JPanel {
 		this.add(cbLocalidad, gbc);
 		gbc.weightx = 0.0;
 		gbc.fill = GridBagConstraints.NONE;
-		//llenarComboBoxLocalidades((ProvinciaDTO) cbProvincia.getSelectedItem());
+		llenarComboBoxLocalidades((ProvinciaDTO) cbProvincia.getSelectedItem());
+		cbLocalidad.addItemListener(new ItemListener(){
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				if(e.getStateChange() == ItemEvent.SELECTED) {
+					txtCodPostal.setText(((LocalidadDTO)cbLocalidad.getSelectedItem()).getCodigoPostal());
+				}
+			}
+		});
 
 		lblCodigoPostal = new JLabel("C\u00F3digo Postal (*)");
 		gbc.gridx = 3;
@@ -389,6 +421,7 @@ public class AltaPasajero extends JPanel {
 		
 		txtCodPostal = new JTextField();
 		txtCodPostal.setEditable(false);
+		txtCodPostal.setText(((LocalidadDTO)cbLocalidad.getSelectedItem()).getCodigoPostal());
 		gbc.gridx = 4;
 		gbc.gridy = 7;
 		gbc.gridwidth = 2;
@@ -461,6 +494,7 @@ public class AltaPasajero extends JPanel {
 		this.add(cbOcupacion, gbc);
 		gbc.weightx = 0.0;
 		gbc.fill = GridBagConstraints.NONE;
+		llenarComboBoxOcupaciones();
 		
 		lblNacionalidad = new JLabel("Nacionalidad (*)");
 		gbc.gridx = 3;
@@ -500,46 +534,80 @@ public class AltaPasajero extends JPanel {
 		gbc.insets = new Insets(10, 10, 10, 10);
 		this.add(btnCancelar,gbc);
 		gbc.anchor = GridBagConstraints.CENTER;
+
+		btnSiguiente.addActionListener(
+				e -> {
+					if( ((PosicionFrenteIvaDTO)cbPosFrenteIVA.getSelectedItem()).getNombre().equals("<SELECCIONAR>") ) cbPosFrenteIVA.setSelectedIndex(1);
+					if(validarDatosObligatorios() && validarLongitudYFormatoDatos()) {
+						String cuit = txtCuit.getText().equals("99-99999999-9") ? "" : txtCuit.getText();
+						TipoDocumentoDTO tipoDoc = (TipoDocumentoDTO) cbTipoDocumento.getSelectedItem();
+						PosicionFrenteIvaDTO posIva = (PosicionFrenteIvaDTO) cbPosFrenteIVA.getSelectedItem();
+						LocalidadDTO localidad = (LocalidadDTO) cbLocalidad.getSelectedItem();
+						ProfesionDTO profesion = (ProfesionDTO) cbOcupacion.getSelectedItem();
+						AltaPasajeroDTO altaPasajeroDTO = new AltaPasajeroDTO(txtApellido.getText(), txtNombre.getText(), tipoDoc.getId(), txtNroDocumento.getText(),cuit,
+								posIva.getId(), fechaNac.getDate(), txtCalle.getText(), txtNumero.getText(), txtDepartamento.getText(),txtPiso.getText(), localidad.getId(),
+								txtTelefono.getText(), txtEmail.getText(), profesion.getId(),txtNacionalidad.getText());
+						try {
+							gestorPersona.altaPasajero(altaPasajeroDTO, true);
+							mostrarMensajePasajeroAgregado();
+						} catch (DatosNoValidosException e1) {
+							mostrarMensajeDatosFaltantes();
+							mostrarMensajeLongitudYFormatoDatos();
+						} catch (ExistePasajeroException e1) {
+							String mensaje = "¡CUIDADO! El tipo y numero de numero de documento ya existen en el sistema";
+							int confirmado = JOptionPane.showOptionDialog(
+									this, 
+									mensaje, 
+									"ADVERTENCIA", 
+									JOptionPane.YES_NO_OPTION, 
+									JOptionPane.WARNING_MESSAGE, 
+									null, 
+									new Object[] {"Aceptar Igualmente","Corregir"}, 
+									"Aceptar Igualmente");
+							if(confirmado == 0) {
+								try {
+									gestorPersona.altaPasajero(altaPasajeroDTO, false);
+									mostrarMensajePasajeroAgregado();
+								} catch (DatosNoValidosException | ExistePasajeroException e2) {
+									//En este caso no va a pasar nunca
+								}
+							}else {
+								cbTipoDocumento.requestFocus();
+							}
+						}
+					}
+					if(!validarDatosObligatorios())
+						mostrarMensajeDatosFaltantes();
+					if(!validarLongitudYFormatoDatos())
+						mostrarMensajeLongitudYFormatoDatos();
+				}				
+		);
 		
-/*		//Acciones de los botones
-		
-		//Botón Siguiente
-		//Validamos los campos
-		btnSiguiente.addActionListener(l ->{
-			CamposVacios();
-		});
-		
-		
-		
-		//Botón cancelar
-		btnCancelar.addActionListener(e -> 
-		{
-			Object[] opciones = {"No", "Sí"};
-			
-			if 
-			(	
-				opciones
-				[JOptionPane.showOptionDialog(
-					AltaPasajero.this, 
-					"¿Desea cancelar la operación?", 
-					"", 
-					JOptionPane.DEFAULT_OPTION, 
-					JOptionPane.QUESTION_MESSAGE, 
-					null, 
-					opciones,
-					opciones[0]
-				)] == opciones[1]
-			)
-				this.setVisible(false);
-				
-			
-			// TODO: volver al menu anterior
-		});*/
+		btnCancelar.addActionListener(
+				e -> {
+					String mensaje = "¿Deseas cancelar el alta de pasajero?";
+					int confirmado = JOptionPane.showOptionDialog(
+							this, 
+							mensaje, 
+							"CONFIRMACION", 
+							JOptionPane.YES_NO_OPTION, 
+							JOptionPane.QUESTION_MESSAGE, 
+							null, 
+							new Object[] {"SI","NO"}, 
+							"SI");
+					if(confirmado == 0) {
+						((BusquedaPasajero) padre).interfazPorDefecto();
+						ventana.setContentPane(padre);
+						ventana.setVisible(true);
+					}
+				}
+		);
 	}
 
 	private void llenarComboBoxLocalidades(ProvinciaDTO selectedItem) {
 		List<LocalidadDTO> listaLocalidades = selectedItem.getLocalidades();
-		cbLocalidad.removeAllItems();
+		LocalidadDTO seleccionar = new LocalidadDTO(0, "<SELECCIONAR>", "");
+		cbLocalidad.addItem(seleccionar);
 		listaLocalidades.sort((t1,t2) -> t1.getNombre().compareTo(t2.getNombre()));
 		for(LocalidadDTO unaLocalidad : listaLocalidades) {
 			cbLocalidad.addItem(unaLocalidad);
@@ -548,7 +616,6 @@ public class AltaPasajero extends JPanel {
 
 	private void llenarComboBoxProvincias(PaisDTO selectedItem) {
 		List<ProvinciaDTO> listaProvincias = selectedItem.getProvincias();
-		cbProvincia.removeAllItems();
 		listaProvincias.sort((t1,t2) -> t1.getNombre().compareTo(t2.getNombre()));
 		for(ProvinciaDTO unaProvincia : listaProvincias) {
 			cbProvincia.addItem(unaProvincia);
@@ -572,64 +639,106 @@ public class AltaPasajero extends JPanel {
 			cbTipoDocumento.addItem(unTipoDoc);
 		}
 	}
-	
-	protected void CamposVacios() {
-		if(txtApellido.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Apellido es requerido.");
+
+	private void llenarComboBoxPosicionesFrenteIVA() {
+		List<PosicionFrenteIvaDTO> listaPosIVA = gestorPersona.getPosicionesIVA();
+		cbPosFrenteIVA.removeAllItems();
+		PosicionFrenteIvaDTO seleccionar = new PosicionFrenteIvaDTO(0, "<SELECCIONAR>");
+		cbPosFrenteIVA.addItem(seleccionar);
+		listaPosIVA.sort((t1,t2) -> t1.getNombre().compareTo(t2.getNombre()));
+		for(PosicionFrenteIvaDTO unaPosIva : listaPosIVA) {
+			cbPosFrenteIVA.addItem(unaPosIva);
 		}
-		if(txtNombre.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Nombre es requerido.");
+	}
+
+	private void llenarComboBoxOcupaciones() {
+		List<ProfesionDTO> listaProfesiones = gestorPersona.getProfesiones();
+		cbOcupacion.removeAllItems();
+		ProfesionDTO seleccionar = new ProfesionDTO(0, "<SELECCIONAR>");
+		cbOcupacion.addItem(seleccionar);
+		listaProfesiones.sort((t1,t2) -> t1.getNombre().compareTo(t2.getNombre()));
+		for(ProfesionDTO unaProfesion : listaProfesiones) {
+			cbOcupacion.addItem(unaProfesion);
 		}
-		//VER ESTO, NO FUNCIONA
-		if(cbTipoDocumento.getSelectedItem()== null) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "Debe seleccionar un Tipo de Documento. Es campo requerido.");
+	}
+
+	private boolean validarDatosObligatorios() {
+		if(txtApellido.getText().isBlank() || txtNombre.getText().isBlank() || txtNroDocumento.getText().isBlank() || fechaNac.getDate() == null
+				|| txtCalle.getText().isBlank() || txtNumero.getText().isBlank()  || cbLocalidad.getSelectedIndex() == 0 || txtTelefono.getText().isBlank() 
+				|| cbOcupacion.getSelectedIndex() == 0 || txtNacionalidad.getText().isBlank()) return false;
+		PosicionFrenteIvaDTO posIvaDTO = gestorPersona.getPosicionFrenteIVAById(((PosicionFrenteIvaDTO)cbPosFrenteIVA.getSelectedItem()).getId());
+		if(posIvaDTO.getNombre().equals("Responsable Inscripto") && txtCuit.getText().equals("99-99999999-9")) return false;
+		return true;
+	}
+
+	private void mostrarMensajeDatosFaltantes() {
+		String mensaje = "Los siguientes campos son obligatorios: \n";
+		if(txtApellido.getText().isBlank()) mensaje += "	Apellido.\n";
+		if(txtNombre.getText().isBlank()) mensaje += "	Nombre.\n";
+		if(txtNroDocumento.getText().isBlank()) mensaje += "	Numero de documento.\n";
+		if(fechaNac.getDate() == null) mensaje += "	Fecha de nacimiento.\n";
+		if(txtCalle.getText().isBlank()) mensaje += "Calle.\n";
+		if(txtNumero.getText().isBlank()) mensaje += "Numero.\n";
+		if(cbLocalidad.getSelectedIndex() == 0) mensaje += "Localidad.\n";
+		if(txtTelefono.getText().isBlank()) mensaje += "Telefono.\n";
+		if(cbOcupacion.getSelectedIndex() == 0) mensaje += "Ocupacion.\n";
+		if(txtNacionalidad.getText().isBlank()) mensaje += "Nacionalidad.\n";
+		PosicionFrenteIvaDTO posIvaDTO = (PosicionFrenteIvaDTO) cbPosFrenteIVA.getSelectedItem();
+		if(posIvaDTO.getNombre().equals("Responsable Inscripto") && txtCuit.getText().equals("99-99999999-9")) mensaje += "Cuit, si la posicion frente al iva seleccionado es 'Responsable Inscripto'.";
+		JOptionPane.showMessageDialog(this, mensaje, "ERROR", JOptionPane.ERROR_MESSAGE);
+	}
+
+	private boolean validarLongitudYFormatoDatos() {
+		if(txtApellido.getText().length() > 50 || txtNombre.getText().length() > 50 || txtNroDocumento.getText().length() > 10
+				|| txtCalle.getText().length() > 50 || txtNumero.getText().length() > 10
+				|| txtDepartamento.getText().length() > 10 || txtPiso.getText().length() > 10 || txtTelefono.getText().length() > 30
+				|| txtEmail.getText().length() > 70 || txtNacionalidad.getText().length() > 30) return false;
+		if(!txtEmail.getText().equals("")) {
+			Pattern pat = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");   
+		    Matcher mat = pat.matcher(txtEmail.getText());
+		    if(!mat.find()) return false;
 		}
-		if(txtNroDocumento.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Número de Documento es requerido.");
+		return true;
+	}
+
+	private void mostrarMensajeLongitudYFormatoDatos() {
+		String mensaje = "Los siguientes campos deben tener como maximo la longitud definida:\n";
+		if(txtApellido.getText().length() > 50) mensaje += "	Apellido (50 caracteres maximo)\n";
+		if(txtNombre.getText().length() > 50) mensaje += "	Nombre (50 caracteres maximo)\n";
+		if(txtNroDocumento.getText().length() > 10) mensaje += "	Numero de Documento (10 caracteres maximo)\n";
+		if(txtCalle.getText().length() > 50) mensaje += "	Calle (50 caracteres maximo)\n";
+		if(txtNumero.getText().length() > 10) mensaje += "	Numero (10 caracteres maximo)\n";
+		if(txtDepartamento.getText().length() > 10) mensaje += "	Departamento (10 caracteres maximo)\n";
+		if(txtPiso.getText().length() > 10) mensaje += "	Piso (10 caracteres como maximo)\n";
+		if(txtTelefono.getText().length() > 30) mensaje += "	Telefono (30 caracteres como maximo)\n";
+		if(txtEmail.getText().length() > 70) mensaje += "	Email (70 caracteres como maximo)\n";
+		if(txtNacionalidad.getText().length() > 30) mensaje += "	Nacionalidad (30 caracteres como maximo)\n";
+		if(!txtEmail.getText().equals("")) {
+			Pattern pat = Pattern.compile("^[\\w-]+(\\.[\\w-]+)*@[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(\\.[A-Za-z]{2,})$");   
+		    Matcher mat = pat.matcher(txtEmail.getText());
+		    if(!mat.find()) mensaje += "El formato del email es el siguiente: xxxx@xxxxx.xxx";
 		}
-		//VER ESTO, NO FUNCIONA
-		
-		if(cbPosFrenteIVA.getSelectedItem()== null) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "Debe seleccionar una Posición en IVA. Es campo requerido.");
-		}
-		
-		if(txtCuit.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo CUIT es requerido.");
-		}
-		//VER FECHA NACIMIENTO
-//		if(dateChooser.getDate() == null) {
-//			JOptionPane.showMessageDialog(AltaPasajero.this, "Debe seleccionar una Posición en IVA. Es campo requerido.");
-//		}
-		if(txtCalle.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Calle es requerido.");
-		}
-		if(txtNumero.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Número es requerido.");
-		}
-		//VER NO FUNCIONA
-		if(cbPais.getSelectedItem()== null) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "Debe seleccionar un País. Es campo requerido.");
-		}
-/*		if(txtProvincia.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Provincia es requerido.");
-		}
-		if(txtLocalidad.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Localidad es requerido.");
-		}*/
-		if(txtCodPostal.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Código Postal es requerido.");
-		}
-		if(txtTelefono.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Telefono es requerido.");
-		}
-		if(txtNumero.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Número de Teléfono es requerido.");
-		}
-/*		if(txtOcupacion.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Ocupación es requerido.");
-		}*/
-		if(txtNacionalidad.getText().isBlank()) {
-			JOptionPane.showMessageDialog(AltaPasajero.this, "El campo Nacionalidad es requerido.");
+		JOptionPane.showMessageDialog(this, mensaje, "ERROR", JOptionPane.ERROR_MESSAGE);
+	}
+
+	private void mostrarMensajePasajeroAgregado() {
+		String mensaje = "El pasajero " + txtNombre.getText() + " " + txtApellido.getText() + " ha sido satisfactoriamente cargado al sistema. ¿Desea cargar otro?";
+		int confirmado = JOptionPane.showOptionDialog(
+				this, 
+				mensaje, 
+				"CONFIRMACION", 
+				JOptionPane.YES_NO_OPTION, 
+				JOptionPane.QUESTION_MESSAGE, 
+				null, 
+				new Object[] {"SI","NO"}, 
+				"SI");
+		if(confirmado == 0) {
+			ventana.setContentPane(new AltaPasajero(ventana, padre));
+			ventana.setVisible(true);
+		} else {
+			((BusquedaPasajero) padre).interfazPorDefecto();
+			ventana.setContentPane(padre);
+			ventana.setVisible(true);
 		}
 	}
 }

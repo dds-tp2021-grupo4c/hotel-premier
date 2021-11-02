@@ -1,6 +1,5 @@
 package gestores;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -18,6 +17,8 @@ import dtos.AltaPasajeroDTO;
 import dtos.BusquedaPasajeroDTO;
 import dtos.PasajeroDTO;
 import dtos.PasajerosDTO;
+import dtos.PosicionFrenteIvaDTO;
+import dtos.ProfesionDTO;
 import dtos.TipoDocumentoDTO;
 import excepciones.DatosNoValidosException;
 import excepciones.ExistePasajeroException;
@@ -88,6 +89,7 @@ public final class GestorPersona {
 		Localidad localidad = geograficoDao.getLocalidadById(altaPasajeroDto.getLocalidadID());
 		p.setLocalidad(localidad);
 		p.setTelefono(altaPasajeroDto.getTelefono());
+		p.setEmail(altaPasajeroDto.getEmail());
 		p.setNacionalidad(altaPasajeroDto.getNacionalidad());
 		Profesion profesion = personaDao.getProfesiondById(altaPasajeroDto.getProfesionID());
 		p.setProfesion(profesion);
@@ -103,7 +105,6 @@ public final class GestorPersona {
 				|| altaPasajeroDto.getProfesionID() == 0 || altaPasajeroDto.getNacionalidad().equals("")) return false;
 		if(personaDao.getPosicionFrenteIVAById(altaPasajeroDto.getPosicionFrenteIVAID()).getNombre().equalsIgnoreCase("responsable inscripto")
 				&& altaPasajeroDto.getCuit().equals("")) return false;
-		if(altaPasajeroDto.getFechaNacimiento().isAfter(LocalDate.now())) return false;
 		if(altaPasajeroDto.getApellido().length() > 50 || altaPasajeroDto.getNombre().length() > 50 || altaPasajeroDto.getDocumento().length() > 10
 				|| altaPasajeroDto.getCuit().length() > 13 || altaPasajeroDto.getCalle().length() > 50 || altaPasajeroDto.getNumero().length() > 10
 				|| altaPasajeroDto.getDepartamento().length() > 10 || altaPasajeroDto.getPiso().length() > 10 || altaPasajeroDto.getTelefono().length() > 30
@@ -125,5 +126,35 @@ public final class GestorPersona {
 			listaDocumentosDTO.add(new TipoDocumentoDTO(tipo.getId(), tipo.getNombre()));
 		}
 		return listaDocumentosDTO;
+	}
+
+	public List<PosicionFrenteIvaDTO> getPosicionesIVA() {
+		personaFactory = PersonaFactoryDao.getFactory(PersonaFactoryDao.POSTGRESQL_FACTORY);
+		personaDao = personaFactory.getPersonaDAO();
+		List<PosicionFrenteIVA> listaPosIva = personaDao.getAllPosicionesFrenteIVA();
+		List<PosicionFrenteIvaDTO> listaPosIvaDTO = new ArrayList<PosicionFrenteIvaDTO>();
+		for(PosicionFrenteIVA pos : listaPosIva) {
+			listaPosIvaDTO.add(new PosicionFrenteIvaDTO(pos.getId(), pos.getNombre()));
+		}
+		return listaPosIvaDTO;
+	}
+
+	public List<ProfesionDTO> getProfesiones(){
+		personaFactory = PersonaFactoryDao.getFactory(PersonaFactoryDao.POSTGRESQL_FACTORY);
+		personaDao = personaFactory.getPersonaDAO();
+		List<Profesion> listaProfesiones = personaDao.getAllProfesiones();
+		List<ProfesionDTO> listaProfesionDTO = new ArrayList<ProfesionDTO>();
+		for(Profesion profesion : listaProfesiones) {
+			listaProfesionDTO.add(new ProfesionDTO(profesion.getId(), profesion.getNombre()));
+		}
+		return listaProfesionDTO;
+	}
+
+	public PosicionFrenteIvaDTO getPosicionFrenteIVAById(int posicionFrenteIVAID) {
+		personaFactory = PersonaFactoryDao.getFactory(PersonaFactoryDao.POSTGRESQL_FACTORY);
+		personaDao = personaFactory.getPersonaDAO();
+		PosicionFrenteIVA posIVA = personaDao.getPosicionFrenteIVAById(posicionFrenteIVAID);
+		PosicionFrenteIvaDTO posicionIvaDTO = new PosicionFrenteIvaDTO(posIVA.getId(), posIVA.getNombre());
+		return posicionIvaDTO;
 	}
 }

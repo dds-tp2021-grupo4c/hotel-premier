@@ -191,6 +191,8 @@ cantidad integer not null,
 id_consumo integer references consumo(id),
 id_factura integer references factura(id) not null);
 
-
-
-
+create table mantenimiento(
+id serial primary key,
+fecha_desde date not null,
+fecha_hasta date not null,
+id_habitacion integer references habitacion(id) not null);

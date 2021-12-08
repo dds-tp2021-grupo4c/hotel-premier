@@ -7,9 +7,28 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class HibernateUtil {
-	//private static SessionFactory sessionFactory = null;
 	private static Session session;
+
+/*	public synchronized static Session getSession() {
+		if(session == null)
+			session = configure().openSession();
+		return session;
+	}
 	
+	private static SessionFactory configure() {
+		SessionFactory sessionFactory = null;
+		
+		final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
+				.configure()
+				.build();
+		try {
+			sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
+		} catch(Exception ex){
+			StandardServiceRegistryBuilder.destroy(registry);
+		}
+		return sessionFactory;
+	}*/
+
 	public synchronized static Session getSession() {
 		if(session == null)
 			session = getSessionFactory().openSession();

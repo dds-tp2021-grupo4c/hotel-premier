@@ -5,8 +5,8 @@
 <hibernate-configuration>
 	<session-factory>
 		<!-- Connection settings -->
+		<property name="connection.driver_class">org.postgresql.Driver</property> <!-- DB Driver -->
    		<property name="connection.url">jdbc:postgresql://localhost:5432/hotel-premier</property> <!-- BD Mane -->
-   		<property name="connection.driver_class">org.postgresql.Driver</property> <!-- DB Driver -->
    		<property name="connection.username">postgres</property> <!-- DB User -->
    		<property name="connection.password">postgres</property> <!-- DB Password -->
 
@@ -26,6 +26,13 @@
 		<mapping class="dominio.PosicionFrenteIVA" />
 		<mapping class="dominio.Profesion" />
 		<mapping class="dominio.TipoDocumento" />
+		<mapping class="dominio.Costo" />
+		<mapping class="dominio.EventualPasajero" />
+		<mapping class="dominio.Habitacion" />
+		<mapping class="dominio.Mantenimiento" />
+		<mapping class="dominio.Moneda" />
+		<mapping class="dominio.Ocupacion" />
+		<mapping class="dominio.Reserva" />
 		
 	</session-factory>
 </hibernate-configuration>

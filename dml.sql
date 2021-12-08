@@ -140,3 +140,150 @@ VALUES
 	('Escritor'),
 	('Periodista'),
 	('Locutor');
+
+-- Insert en Tabla estado_habitacion
+INSERT INTO estado_habitacion (nombre)
+VALUES
+	('LIBRE'),
+	('RESERVADA'),
+	('OCUPADA'),
+	('FUERA DE SERVICIO');
+
+-- Insert en Tabla tipo_habitacion
+INSERT INTO tipo_habitacion (nombre)
+VALUES
+	('INDIVIDUAL ESTANDAR'),
+	('DOBLE ESTANDAR'),
+	('DOBLE SUPERIOR'),
+	('SUPERIOR FAMILY PLAN'),
+	('SUITE DOBLE');
+
+-- Insert en Tabla tipo_consumo
+INSERT INTO tipo_consumo (nombre)
+VALUES
+	('BAR'),
+	('SAUNA'),
+	('LAVADO PLANCHADO');
+
+-- Insert en Tabla habitacion
+INSERT INTO habitacion (id_estado, id_tipo)
+VALUES
+	(1,1),
+	(1,1),
+	(1,1),
+	(1,1),
+	(1,1),
+	(1,1),
+	(1,1),
+	(1,1),
+	(1,1),
+	(1,1),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,2),
+	(1,3),
+	(1,3),
+	(1,3),
+	(1,3),
+	(1,3),
+	(1,3),
+	(1,3),
+	(1,3),
+	(1,4),
+	(1,4),
+	(1,4),
+	(1,4),
+	(1,4),
+	(1,4),
+	(1,4),
+	(1,4),
+	(1,4),
+	(1,4),
+	(1,5),
+	(1,5);
+
+-- Insert en Tabla moneda
+INSERT INTO moneda (nombre)
+VALUES
+	('DOLAR'),
+	('EURO'),
+	('REAL'),
+	('PESO URUGUAYO'),
+	('PESO ARGENTINO');
+
+-- Insert en Tabla costo
+INSERT INTO costo (valor,fecha_inicio,id_moneda)
+VALUES
+	(4200,CURRENT_DATE,5),
+	(6240,CURRENT_DATE,5),
+	(7308,CURRENT_DATE,5),
+	(10500,CURRENT_DATE,5),
+	(12600,CURRENT_DATE,5);
+
+-- Insert en Tabla posee
+INSERT INTO posee (id_habitacion, id_costo)
+VALUES
+	(1,1),
+	(2,1),
+	(3,1),
+	(4,1),
+	(5,1),
+	(6,1),
+	(7,1),
+	(8,1),
+	(9,1),
+	(10,1),
+	(11,2),
+	(12,2),
+	(13,2),
+	(14,2),
+	(15,2),
+	(16,2),
+	(17,2),
+	(18,2),
+	(19,2),
+	(20,2),
+	(21,2),
+	(22,2),
+	(23,2),
+	(24,2),
+	(25,2),
+	(26,2),
+	(27,2),
+	(28,2),
+	(29,3),
+	(30,3),
+	(31,3),
+	(32,3),
+	(33,3),
+	(34,3),
+	(35,3),
+	(36,3),
+	(37,4),
+	(38,4),
+	(39,4),
+	(40,4),
+	(41,4),
+	(42,4),
+	(43,4),
+	(44,4),
+	(45,4),
+	(46,4),
+	(47,5),
+	(48,5);
+

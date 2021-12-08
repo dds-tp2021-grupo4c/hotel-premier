@@ -86,18 +86,23 @@ id serial primary key,
 id_pasajero integer references pasajero(id) on delete set null,
 id_persona_juridica integer references persona_juridica(id) on delete set null);
 
-create type estado_habitacion as enum('OCUPADA','RESERVADA', 'LIBRE', 'FUERA_DE_SERVICIO');
+create table estado_habitacion(
+id serial primary key,
+nombre varchar(20) unique not null);
 
-create type tipo_habitacion as enum('INDIVIDUAL_ESTANDAR','DOBLE_ESTANDAR', 
-									'DOBLE_SUPERIOR', 'SUPERIOR_FAMILY_PLAN', 'SUITE_DOBLE');
+create table tipo_habitacion(
+id serial primary key,
+nombre varchar(20) unique not null);
 
-create type tipo_consumo as enum('BAR','SAUNA', 'LAVADO_PLANCHADO');
+create table tipo_consumo(
+id serial primary key,
+nombre varchar(20) unique not null);
 
 create table habitacion(
 id serial primary key,
-numero integer not null,
-estado estado_habitacion not null,
-tipo tipo_habitacion not null);
+numero serial not null,
+id_estado integer references estado_habitacion(id) not null,
+id_tipo integer references tipo_habitacion(id) not null);
 
 create table ocupacion(
 id serial primary key,
@@ -121,7 +126,7 @@ id serial primary key,
 nombre_producto varchar(50) not null,
 precio_unitario float not null,
 cantidad integer not null,
-tipo tipo_consumo not null,
+id_tipo_consumo integer references tipo_consumo(id) not null,
 id_habitacion integer references habitacion(id) not null);
 
 create table reserva(

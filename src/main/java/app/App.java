@@ -9,6 +9,7 @@ import java.awt.event.WindowEvent;
 
 public class App {
 	public static void main(String[] args) {
+		HibernateUtil.getSession();
 		JFrame ventana = new JFrame();
 		ventana.addWindowListener(
 				new WindowAdapter()

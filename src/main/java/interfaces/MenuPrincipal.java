@@ -6,7 +6,6 @@ import java.awt.GridBagConstraints;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import util.HibernateUtil;
 import javax.swing.JButton;
 import java.awt.Font;
 import javax.swing.ImageIcon;
@@ -18,10 +17,10 @@ public class MenuPrincipal extends JPanel {
 
 	public MenuPrincipal(JFrame ventana) {
 		this.ventana = ventana;
+		this.ventana.setTitle("Menú Principal");
 		gbc = new GridBagConstraints();
 		this.setLayout(new GridBagLayout());
 		this.armarPanel();
-		HibernateUtil.getSession();
 	}
 
 	private void armarPanel() {
@@ -48,6 +47,7 @@ public class MenuPrincipal extends JPanel {
 		this.add(btnGestionPasajero, gbc);
 		btnGestionPasajero.addActionListener(
 				e -> {
+					ventana.setTitle("Pasajeros");
 					ventana.setContentPane(new BusquedaPasajero(ventana, this));
 					ventana.setVisible(true);
 				}
@@ -92,6 +92,13 @@ public class MenuPrincipal extends JPanel {
 		gbc.gridheight = 1;
 		gbc.insets = new Insets(10, 10, 10, 10);
 		this.add(btnOcuparHab, gbc);
+		btnOcuparHab.addActionListener(
+				e -> {
+					ventana.setTitle("Habitaciones");
+					ventana.setContentPane(new EstadoHabitaciones(ventana, this));
+					ventana.setVisible(true);
+				}
+		);
 		
 		JButton btnIngresarPago = new JButton("Ingresar Pago");
 		btnIngresarPago.setIcon(new ImageIcon(MenuPrincipal.class.getResource("/icons/IngresarPago.png")));

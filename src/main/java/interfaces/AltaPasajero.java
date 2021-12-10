@@ -6,6 +6,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.Insets;
 import java.text.ParseException;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.regex.Matcher;
@@ -49,7 +51,7 @@ public class AltaPasajero extends JPanel {
 	private JLabel lblApellido, lblNombre,lblTipoDocumento,lblNroDocumento,lblPosicionIVA,lblCUIT,lblFechaNac,lblCalle,lblNumero,lblDepto,lblPiso,lblPais,lblProvincia,lblLocalidad,
 		lblCodigoPostal,lblTelefono,lblEmail,lblOcupacion,lblNacionalidad;
 	private JTextField txtApellido,txtCalle,txtDepartamento,txtTelefono,txtNombre,txtNroDocumento,txtNumero,txtPiso,txtCodPostal,txtEmail,txtNacionalidad;
-	JFormattedTextField txtCuit;
+	private JFormattedTextField txtCuit;
 	private JComboBox<TipoDocumentoDTO> cbTipoDocumento;
 	private JComboBox<PosicionFrenteIvaDTO> cbPosFrenteIVA;
 	private JComboBox<PaisDTO> cbPais;
@@ -58,7 +60,7 @@ public class AltaPasajero extends JPanel {
 	private JComboBox<ProfesionDTO> cbOcupacion;
 	private JDateChooser fechaNac;
 	private JButton btnSiguiente, btnCancelar;
-	MaskFormatter mascaraCuit = null;
+	private MaskFormatter mascaraCuit = null;
 
 	
 	public AltaPasajero(JFrame ventana, JPanel padre) {
@@ -337,13 +339,6 @@ public class AltaPasajero extends JPanel {
 				}
 			}
 		});
-		/*cbPais.addActionListener(
-				e -> {
-					cbProvincia.removeAllItems();
-					cbLocalidad.removeAllItems();
-					llenarComboBoxProvincias((PaisDTO) cbPais.getSelectedItem());
-				}
-		);*/
 		
 		lblProvincia = new JLabel("Provincia (*)");
 		gbc.gridx = 3;
@@ -375,12 +370,6 @@ public class AltaPasajero extends JPanel {
 				}
 			}
 		});
-	/*	cbProvincia.addActionListener(
-				e -> {
-					cbLocalidad.removeAllItems();
-					llenarComboBoxLocalidades((ProvinciaDTO) cbProvincia.getSelectedItem());
-				}
-		);*/
 		
 		lblLocalidad = new JLabel("Localidad (*)");
 		gbc.gridx = 0;
@@ -544,8 +533,9 @@ public class AltaPasajero extends JPanel {
 						PosicionFrenteIvaDTO posIva = (PosicionFrenteIvaDTO) cbPosFrenteIVA.getSelectedItem();
 						LocalidadDTO localidad = (LocalidadDTO) cbLocalidad.getSelectedItem();
 						ProfesionDTO profesion = (ProfesionDTO) cbOcupacion.getSelectedItem();
+						LocalDate fecha_nacimiento = fechaNac.getDate().toInstant().atZone(ZoneId.systemDefault()).toLocalDate();
 						AltaPasajeroDTO altaPasajeroDTO = new AltaPasajeroDTO(txtApellido.getText(), txtNombre.getText(), tipoDoc.getId(), txtNroDocumento.getText(),cuit,
-								posIva.getId(), fechaNac.getDate(), txtCalle.getText(), txtNumero.getText(), txtDepartamento.getText(),txtPiso.getText(), localidad.getId(),
+								posIva.getId(), fecha_nacimiento, txtCalle.getText(), txtNumero.getText(), txtDepartamento.getText(),txtPiso.getText(), localidad.getId(),
 								txtTelefono.getText(), txtEmail.getText(), profesion.getId(),txtNacionalidad.getText());
 						try {
 							gestorPersona.altaPasajero(altaPasajeroDTO, true);
@@ -596,6 +586,7 @@ public class AltaPasajero extends JPanel {
 							new Object[] {"SI","NO"}, 
 							"SI");
 					if(confirmado == 0) {
+						ventana.setTitle("Pasajeros");
 						((BusquedaPasajero) padre).interfazPorDefecto();
 						ventana.setContentPane(padre);
 						ventana.setVisible(true);
@@ -736,6 +727,7 @@ public class AltaPasajero extends JPanel {
 			ventana.setContentPane(new AltaPasajero(ventana, padre));
 			ventana.setVisible(true);
 		} else {
+			ventana.setTitle("Pasajeros");
 			((BusquedaPasajero) padre).interfazPorDefecto();
 			ventana.setContentPane(padre);
 			ventana.setVisible(true);

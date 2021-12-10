@@ -12,6 +12,8 @@ import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
+import javax.swing.ScrollPaneConstants;
+
 import dtos.BusquedaPasajeroDTO;
 import dtos.PasajerosDTO;
 import dtos.TipoDocumentoDTO;
@@ -111,6 +113,7 @@ public class BusquedaPasajero extends JPanel {
 					}
 					else {
 						JOptionPane.showMessageDialog(this, "No se encontraron resultados con los criterios seleccionados", "INFORMACION", JOptionPane.INFORMATION_MESSAGE);
+						ventana.setTitle("Pasajero - Alta");
 						ventana.setContentPane(new AltaPasajero(ventana, this));
 						ventana.setVisible(true);
 					}
@@ -135,6 +138,7 @@ public class BusquedaPasajero extends JPanel {
 		this.add(btnSiguiente);
 		btnSiguiente.addActionListener(
 				e -> {
+					ventana.setTitle("Pasajero - Alta");
 					ventana.setContentPane(new AltaPasajero(ventana, this));
 					ventana.setVisible(true);
 				}
@@ -145,6 +149,7 @@ public class BusquedaPasajero extends JPanel {
 		this.add(btnCancelar);
 		btnCancelar.addActionListener(
 				e -> {
+					ventana.setTitle("Menú Principal");
 					ventana.setContentPane(padre);
 					ventana.pack();
 					ventana.setVisible(true);
@@ -215,10 +220,10 @@ public class BusquedaPasajero extends JPanel {
 				"Apellido", "Nombre", "Tipo Documento", "Nro. Documento"
 			}
 		));
-		table.getColumnModel().getColumn(0).setPreferredWidth(90);
-		table.getColumnModel().getColumn(1).setPreferredWidth(90);
-		table.getColumnModel().getColumn(2).setPreferredWidth(90);
-		table.getColumnModel().getColumn(3).setPreferredWidth(90);
+		table.getColumnModel().getColumn(0).setPreferredWidth(120);
+		table.getColumnModel().getColumn(1).setPreferredWidth(120);
+		table.getColumnModel().getColumn(2).setPreferredWidth(120);
+		table.getColumnModel().getColumn(3).setPreferredWidth(120);
 	}
 
 	private void resetTable(JTable table) {

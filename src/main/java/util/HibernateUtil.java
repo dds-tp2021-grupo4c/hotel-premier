@@ -7,7 +7,7 @@ import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 
 public class HibernateUtil {
-	private static Session session;
+	private static Session session = null;
 
 /*	public synchronized static Session getSession() {
 		if(session == null)

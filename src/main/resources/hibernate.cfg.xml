@@ -33,6 +33,8 @@
 		<mapping class="dominio.Moneda" />
 		<mapping class="dominio.Ocupacion" />
 		<mapping class="dominio.Reserva" />
+		<mapping class="dominio.EstadoHabitacion" />
+		<mapping class="dominio.TipoHabitacion" />
 		
 	</session-factory>
 </hibernate-configuration>

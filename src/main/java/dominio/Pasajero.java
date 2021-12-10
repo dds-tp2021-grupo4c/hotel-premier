@@ -1,6 +1,7 @@
 package dominio;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -9,7 +10,8 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 @Entity
@@ -35,7 +37,7 @@ public class Pasajero {
 	private String cuit;
 
 	@Column(name = "fecha_nacimiento")
-	private Date fechaNac;
+	private LocalDate fechaNac;
 
 	@Column
 	private String email;
@@ -55,21 +57,24 @@ public class Pasajero {
 	@Column
 	private String piso;
 
-	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@ManyToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_tipo_documento", referencedColumnName = "id")
 	private TipoDocumento tipoDocumento;
 
-	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@ManyToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_posicion_frente_iva", referencedColumnName = "id")
 	private PosicionFrenteIVA posicionFrenteIva;
 
-	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@ManyToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_profesion", referencedColumnName = "id")
 	private Profesion profesion;
 
-	@OneToOne(optional = false, cascade = CascadeType.ALL)
+	@ManyToOne(optional = false, cascade = CascadeType.ALL)
 	@JoinColumn(name = "id_localidad", referencedColumnName = "id")
 	private Localidad localidad;
+
+	@OneToMany(mappedBy = "responsable")
+	private List<Ocupacion> ocupaciones;
 
 	public int getId() {
 		return id;
@@ -119,11 +124,11 @@ public class Pasajero {
 		this.cuit = cuit;
 	}
 
-	public Date getFechaNac() {
+	public LocalDate getFechaNac() {
 		return fechaNac;
 	}
 
-	public void setFechaNac(Date fechaNac) {
+	public void setFechaNac(LocalDate fechaNac) {
 		this.fechaNac = fechaNac;
 	}
 
@@ -205,5 +210,13 @@ public class Pasajero {
 
 	public void setLocalidad(Localidad localidad) {
 		this.localidad = localidad;
+	}
+
+	public List<Ocupacion> getOcupaciones() {
+		return ocupaciones;
+	}
+
+	public void setOcupaciones(List<Ocupacion> ocupaciones) {
+		this.ocupaciones = ocupaciones;
 	}
 }

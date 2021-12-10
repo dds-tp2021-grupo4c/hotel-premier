@@ -1,6 +1,6 @@
 package dtos;
 
-import java.util.Date;
+import java.time.LocalDate;
 
 public class AltaPasajeroDTO {
 	private String apellido;
@@ -9,7 +9,7 @@ public class AltaPasajeroDTO {
 	private String documento;
 	private String cuit;
 	private int posicionFrenteIVAID;
-	private Date fechaNacimiento;
+	private LocalDate fechaNacimiento;
 	private String calle;
 	private String numero;
 	private String departamento;
@@ -21,7 +21,7 @@ public class AltaPasajeroDTO {
 	private String nacionalidad;
 
 	public AltaPasajeroDTO(String apellido, String nombre, int tipoDocumentoID, String documento, String cuit,
-			int posicionFrenteIVAID, Date fechaNacimiento, String calle, String numero, String departamento,
+			int posicionFrenteIVAID, LocalDate fechaNacimiento, String calle, String numero, String departamento,
 			String piso, int localidadID, String telefono, String email, int profesionID,
 			String nacionalidad) {
 		super();
@@ -67,7 +67,7 @@ public class AltaPasajeroDTO {
 		return posicionFrenteIVAID;
 	}
 
-	public Date getFechaNacimiento() {
+	public LocalDate getFechaNacimiento() {
 		return fechaNacimiento;
 	}
 
